@@ -17,8 +17,8 @@ A countdown-based grand prize game where players burn ERC20 tokens to purchase s
 
 | Network | Diamond (Proxy) |
 |---------|-----------------|
-| BNB Testnet | `0x...` |
-| BNB Mainnet | `0x...` |
+| BNB Mainnet | [`0x062AfaBEA853178E58a038b808EDEA119fF5948b`](https://bscscan.com/address/0x062AfaBEA853178E58a038b808EDEA119fF5948b) |
+| BNB Testnet | [`0x22E309c31Bed932afB505308434fB774cB2B23a6`](https://testnet.bscscan.com/address/0x22E309c31Bed932afB505308434fB774cB2B23a6) |
 
 ## Features
 

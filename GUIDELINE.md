@@ -26,10 +26,17 @@ This project is built for and deployed on **BNB Smart Chain (BSC)**.
 - `LibGame.transferBNB()` — BNB transfer utility
 - Events: `BNBDetected(uint256 amount, ...)` — emitted on BNB deposit detection
 
+### Deployed Contract Addresses
+
+| Network | Diamond (Proxy) |
+|---------|-----------------|
+| BSC Mainnet (56) | [`0x062AfaBEA853178E58a038b808EDEA119fF5948b`](https://bscscan.com/address/0x062AfaBEA853178E58a038b808EDEA119fF5948b) |
+| BSC Testnet (97) | [`0x22E309c31Bed932afB505308434fB774cB2B23a6`](https://testnet.bscscan.com/address/0x22E309c31Bed932afB505308434fB774cB2B23a6) |
+
 ### Documentation
 
 - README explicitly states deployment on **BNB Smart Chain**
-- Contract addresses table includes BSC Mainnet and BSC Testnet entries
+- Contract addresses table includes BSC Mainnet and BSC Testnet entries with BscScan links
 
 ## Repository Info
 
