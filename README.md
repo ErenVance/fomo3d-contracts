@@ -1,17 +1,39 @@
 # Fomo3D Contracts
 
-Solidity smart contracts for Fomo3D — a countdown-based game on BNB Chain (BSC) built with the Diamond Pattern (EIP-2535).
+A countdown-based grand prize game where players burn ERC20 tokens to purchase shares and compete for the prize pool, built on **BNB Smart Chain (BSC)** and compatible with other EVM networks.
 
-Players burn ERC20 tokens to purchase shares, extending a countdown timer. When the countdown expires, the grand prize pool is distributed to the last 10 buyers.
+## Technology Stack
+
+- **Blockchain**: BNB Smart Chain + EVM-compatible chains
+- **Smart Contracts**: Solidity ^0.8.33, Diamond Pattern (EIP-2535)
+- **Development**: Foundry, OpenZeppelin Contracts
+
+## Supported Networks
+
+- **BNB Smart Chain Mainnet** (Chain ID: 56)
+- **BNB Smart Chain Testnet** (Chain ID: 97)
+
+## Contract Addresses
+
+| Network | Diamond (Proxy) |
+|---------|-----------------|
+| BNB Testnet | `0x...` |
+| BNB Mainnet | `0x...` |
+
+## Features
+
+- **Countdown Grand Prize**: Last 10 buyers split the prize pool when the timer expires (55% to #1, 5% each to #2–#10)
+- **Token Burn Mechanism**: Players burn ERC20 tokens to purchase shares, creating deflationary pressure
+- **Pull-based Dividend System**: Real-time earnings distribution via Earnings-Per-Share (EPS) accumulator
+- **Diamond Pattern (EIP-2535)**: Modular upgradability with 8 independent facets sharing unified storage
+- **Security-first Design**: EOA-only restriction, reentrancy guards, emergency pause, and BNB balance tracking
 
 ## Architecture
-
-The contract uses the [Diamond Pattern (EIP-2535)](https://eips.ethereum.org/EIPS/eip-2535) for modular upgradability. A single Diamond proxy delegates calls to multiple Facets:
 
 ```
 Diamond (Proxy)
 ├── DiamondCutFacet       — Upgrade management
-├── DiamondLoupeFacet     — Contract introspection
+├── DiamondLoupeFacet     — Contract introspection (ERC-2535)
 ├── OwnershipFacet        — Owner management (ERC-173)
 ├── PurchaseFacet         — Buy shares by burning tokens
 ├── ExitFacet             — Exit game / settle after round ends
@@ -27,12 +49,10 @@ All facets share state through a unified `AppStorage` struct via `LibAppStorage`
 ### Core Loop
 
 ```
-Purchase shares → Countdown extends → Dividends accrue → Countdown expires → Grand prize distributed → Next round
+Purchase shares → Countdown extends → Dividends accrue → Countdown expires → Grand prize → Next round
 ```
 
 ### BNB Distribution
-
-When BNB is sent to the contract and detected during a purchase:
 
 | Pool | Default | Purpose |
 |------|---------|---------|
@@ -46,26 +66,12 @@ The Injection Pool is further split:
 | Dividend | 50% | Distributed to all share holders (EPS-based) |
 | Grand Prize | 50% | Accumulated for end-of-round payout |
 
-### Grand Prize
-
-When the countdown reaches zero, the grand prize pool is distributed:
+### Grand Prize Distribution
 
 | Rank | Share |
 |------|-------|
 | #1 (last buyer) | 55% |
 | #2 ~ #10 | 5% each |
-
-### Dividend System (Pull-based EPS)
-
-Dividends use an Earnings-Per-Share accumulator pattern:
-
-```
-// On BNB injection
-earningsPerShare += dividendAmount * EPS_PRECISION / totalShares
-
-// Player pending earnings
-pending = (earningsPerShare - player.earningsPerShare) * player.shares / EPS_PRECISION
-```
 
 ## Security
 
